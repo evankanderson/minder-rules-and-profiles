@@ -26,7 +26,7 @@ rest:
           repo:
             type: string
     members:
-      endpoint: https://api.github.com/repos/{owner}/{repo}/collaborators
+      endpoint: https://api.github.com/repos/{owner}/{repo}/collaborators?per_page=100
       parse: json
       input_schema:
         type: object

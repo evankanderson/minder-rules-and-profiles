@@ -1,10 +1,11 @@
 version: v1
 type: rule-type
-name: insights-exists
+name: insights_exists
 display_name: Ensure Security Insights file exists
 short_failure_message: Security Insights file is missing
 severity:
   value: info
+release_phase: beta
 context:
   provider: github
 description: Verifies that the Security Insights file exists in the repository
@@ -87,6 +88,7 @@ def:
             "comment": repo_config.description,
           }
         ]
+        content.project.homepage := repo_config.homepage if repo_config.homepage != null
 
         content.repository["accepts-change-request"] if {
           repo_config.has_pull_requests
@@ -101,7 +103,7 @@ def:
           "owner": input.properties["github/repo_owner"],
           "repo": input.properties["github/repo_name"]
         }).body
-        content.project["vulnerability-reporting"]["reports-accepted"] := repo_config.has_issues
+        content.project["vulnerability-reporting"]["reports-accepted"] := vuln_reporting.enabled
         content.project["vulnerability-reporting"]["bug-bounty-available"] := false
 
         members := minder.datasource.insightsghapi.members({
@@ -109,10 +111,9 @@ def:
           "repo": input.properties["github/repo_name"]
         }).body
 
-        administrators contains {"name": login, "primary": false} if {
-          user := members[_]
+        administrators contains {"name": user.login, "primary": false} if {
+          some user in members
           user.permissions.admin == true
-          login = user.login
         }
 
         content.project.administrators := administrators

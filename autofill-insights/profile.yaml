@@ -7,5 +7,5 @@ context:
 alert: "off"
 remediate: "on"
 repository:
-- type: insights-exists
-- type: insights-up-to-date
+  - type: insights_exists
+  - type: insights_up_to_date
