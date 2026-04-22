@@ -41,7 +41,7 @@ flowchart LR
     
     Rules -->|PR| Repo
     Repo -->|apply| Minder
-    Repo -->|catalog-sync(PR)| Repo
+    Repo -->|"catalog-sync(PR)"| Repo
 ```
 
 This approach ensures that infrastructure, security policies, and compliance
