@@ -32,6 +32,7 @@ def:
       type: constraints
       def: |
         package minder
+
         import rego.v1
 
         # Match both .yml and .yaml files

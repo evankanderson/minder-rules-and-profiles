@@ -30,6 +30,7 @@ def:
       type: constraints
       def: |
         package minder
+
         import rego.v1
 
         default output := {"patches": "{}"}
@@ -53,6 +54,7 @@ def:
         si_contents := "" if count(si_files) == 0
 
         default current := {}
+
         current := yaml.unmarshal(si_contents) if yaml.is_valid(si_contents)
         violations contains {"msg": "Security Insights file is missing or malformed"} if {
           current == {}
@@ -175,6 +177,7 @@ def:
         detected.project.administrators contains e if {
           e := object.get(current, ["project", "administrators"], [])[_]
         }
+
         detected.project.administrators contains {"name": user.name, "primary": false} if {
           some user in administrators
           every admin in object.get(current, ["project", "administrators"], []) {
@@ -192,6 +195,7 @@ def:
             user.name != admin.name
           }
         }
+
         # TODO: governance, review-policy, dependency-management-policy, etc.
 
         # Generate override object as JSON for merging with YQ if needed

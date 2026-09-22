@@ -30,6 +30,7 @@ def:
       type: constraints
       def: |
         package minder
+
         import rego.v1
 
         permitted_prefixes := [
@@ -39,6 +40,7 @@ def:
           "text/",
           "application/pdf",
         ]
+
         permitted_type(http_type) if {
           some prefix in permitted_prefixes
           startswith(http_type, prefix)
